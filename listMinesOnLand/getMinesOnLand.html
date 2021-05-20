@@ -3,12 +3,28 @@
 <meta charset="UTF-8">
 <body>
 
+  <a href="https://github.com/tomix89/AlienWorlds/blob/main/listMinesOnLand/readme.md">Readme on Github</a>
+  <br>
+  <br>
+  <label>Miner account/name/address</label>
+  <input type="text" id="minerName" value="os2ro.wam" maxlength="25" size="32"> <label for="miner">example: os2ro.wam</label> 
+  <br>
+  <label>Land owner account/name/address</label>
+  <input type="text" id="landOwner" maxlength="25" size="32"> <label for="miner">example: auurg.wam</label> 
+  <br>
+  <label>Land id </label>
+  <input type="text" id="landId" maxlength="25" size="32"> <label for="miner">example: 1099512960377</label> 
+  <br>
+  <br>
   <script src="getMinesOnLand.js"></script>
-  <script>setMiner('vrsda.wam')</script>
-  <script>setLandOwner('auurg.wam')</script>
-  <script>checkMines();</script>
-  <p>RUNNING</p>
+  <input id="clickMe" type="button" value="Go!" onclick="checkMines();" />
+  <br>
+  <br>
+  <label>Total mined with this configuration: </label> <label id="totalMined">0.0000 TLM</label>
+  
 
+  <pre id="resultField"> </pre>
+  
 </body>
 
 </html>
