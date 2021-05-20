@@ -9,3 +9,5 @@ The javascript reads the response and filters out the relavant data:
 The values are then shown on the page.  
 The last line is the overall sum of TLM of all of your mines on the given land.  
 This tool shows 'only' last 999 mines - this is an API limit  
+
+Last but not least, if you find this tool usefuul consider a small tip to os2ro.wam
