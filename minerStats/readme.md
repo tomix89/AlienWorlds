@@ -18,7 +18,7 @@ The second chart lists the mined TLM amount in time (green bars). The red bars a
 In here you can also spot bots, as they (probably) running without stop.  
 
 On a top of it you will get some other statistics as: total of mined TLM, average of mined TLM, etc.
-*BEWARE* - all the dates and times are in server time (UTC) not your local time! 
+**BEWARE** all the dates and times are in server time (UTC) not your local time! 
 
 Last but not least, if you find this tool useful consider a small tip to os2ro.wam
 
