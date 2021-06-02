@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="UTF-8">
+<body>
+
+  <a href="https://github.com/tomix89/AlienWorlds/blob/main/minerStats/readme.md">Readme on Github</a>
+  <br>
+  <br>
+  <label>Miner account/name/address</label>
+  <input type="text" id="minerName" value="os2ro.wam" maxlength="25" size="32">
+  <br>
+  <label>Timespan to check: from 'Now' back n days </label>
+  <input type="number" id="daysLookBack" min="1" max="10" value="3">
+  <label> (has to be larger than 0, can have decimals, for example 2.3)</label>
+  <br>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.0/chart.js"></script>
+  <script src="minerStats.js"></script>
+  <input id="clickMe" type="button" value="Go!" onclick="checkMiner();" />
+  <br>
+  <br>
+
+  <pre id="resultField"> </pre>
+
+  <div>
+     <canvas id="chartHistogram" style="width:90%;max-width:800px"></canvas>
+  </div>
+  <div>
+     <canvas id="chartMines" style="width:90%;max-width:800px"></canvas>
+  </div>
+
+</body>
+</html>
