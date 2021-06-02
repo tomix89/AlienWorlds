@@ -1,4 +1,4 @@
-# Check some nice statistics os any miner on Alien Worlds
+# Check some nice statistics of any miner on Alien Worlds
 Download all files, place them in the same repository.  
 Double click on 'minerStats.html' it will open the page in your default browser.
 
