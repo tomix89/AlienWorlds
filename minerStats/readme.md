@@ -14,7 +14,8 @@ The mine delay is defined as the time between the moment of the cooldown just el
 ![delayDef](images/delayDefinition.png)
 Bots usually have an almost consistent really short delay (seconds). So you will see a thin spike. \
 People on the other hand will have delay from minutes to hours, and most importantly they will have the last bar '> 8:00:00' (bigger than 8 hours) populated (as people do sleep). \
-The second chart lists the mined TLM amount in time. In here you can also spot bots, as they (probably) running without stop.  
+The second chart lists the mined TLM amount in time (green bars). The red bars are the day splitters, drawn on the 23:59 - 00:00 boundary of the day (server time) 
+In here you can also spot bots, as they (probably) running without stop.  
 
 On a top of it you will get some other statistics as: total of mined TLM, average of mined TLM, etc.
 
