@@ -20,8 +20,8 @@ On a top of it you will get some other statistics as: total of mined TLM, averag
 
 Last but not least, if you find this tool useful consider a small tip to os2ro.wam
 
-###Example of a human:
+## Example of a human:
 ![human](images/sampleHuman.png)
 
-###Example of a bot:
+## Example of a bot:
 ![human](images/sampleBot.png)
