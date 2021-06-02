@@ -7,7 +7,7 @@ The time to 'look back' shall be greater than 0, can have also a decimal place(s
 
 Press the 'Go' button and wait for result. Depending on the result size (max 5000 items) and the connection you have it might take up to 10s to process.
 After pressing the button the javascript makes a request to alienworlds API -> https://github.com/Alien-Worlds/alienworlds-api  
-The javascript reads the response and filters out the relevant data.
+The javascript reads the response and filters out the relevant data. \
 The 2 main thing are the histogram of mine delays, and the amount mined. Both can be used to detect botting.
 
 The mine delay is defined as the time between the moment of the cooldown just elapsed and the next mine:
@@ -18,6 +18,7 @@ The second chart lists the mined TLM amount in time (green bars). The red bars a
 In here you can also spot bots, as they (probably) running without stop.  
 
 On a top of it you will get some other statistics as: total of mined TLM, average of mined TLM, etc.
+*BEWARE* - all the dates and times are in server time (UTC) not your local time! 
 
 Last but not least, if you find this tool useful consider a small tip to os2ro.wam
 
