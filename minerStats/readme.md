@@ -17,7 +17,7 @@ People on the other hand will have delay from minutes to hours, and most importa
 The second chart lists the mined TLM amount in time (green bars). The red bars are the day splitters, drawn on the 23:59 - 00:00 boundary of the day (server time) 
 In here you can also spot bots, as they (probably) running without stop.  
 
-On a top of it you will get some other statistics as: total of mined TLM, average of mined TLM, **and tools in the bag of the last mine** etc. \
+On a top of it you will get some other statistics as: total of mined TLM, average of mined TLM, **and tools in the bag of the last mine**, etc. \
 ![mineRes](images/minedResults.png)
 
 **BEWARE** all the dates and times are in server time (UTC) not your local time! 
