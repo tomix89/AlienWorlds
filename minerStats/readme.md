@@ -20,12 +20,12 @@ In here you can also spot bots, as they (probably) running without stop.
 On a top of it you will get some other statistics as: total of mined TLM, average of mined TLM, **and tools in the bag of the last mine**, etc. \
 ![mineRes](images/minedResults.png)
 
-**BEWARE** all the dates and times are in server time (UTC) not your local time! 
-
-Last but not least, if you find this tool useful consider a small tip to os2ro.wam
-
 ## Example of a human:
 ![human](images/sampleHuman.png)
 
 ## Example of a bot:
 ![human](images/sampleBot.png)
+
+**BEWARE** all the dates and times are in server time (UTC) not your local time! 
+
+Last but not least, if you find this tool useful consider a small tip to os2ro.wam
