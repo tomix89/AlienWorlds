@@ -3,7 +3,67 @@ const zeroPad = (num, places) => String(num).padStart(places, '0')
 var histChart = null;
 var mineChart = null;
 
+var minerAddress = null;
+
+function getToolAndShow(assetId, bagPosition) {
+
+    let query = 'https://wax.api.atomicassets.io/atomicmarket/v1/assets/' + assetId;
+    console.log("query", query);
+
+    fetch(query)
+        .then(response => response.json())
+        .then(json => {
+
+            if (json && json.data) {
+
+                let image = json.data.collection.img;
+                let shine = json.data.data.shine;
+                let name = json.data.data.name;
+
+                resultField.textContent += 'bag[' + (bagPosition + 1) + ']  ' + name + " - " + shine + '\n';
+
+            } else {
+                resultField.textContent = "AtomicAssets API is busy (or error happened).\nDouble check your input and try a few seconds later (reload - F5). Api responded: " + json;
+            }
+        }).catch(error => {
+            console.log(error);
+            resultField.textContent += "ERROR: " + error;
+        });
+}
+
+
+function checkBag() {
+
+    let query = 'https://api.alienworlds.io/v1/alienworlds/mines?miner=' + minerAddress + '&limit=2';
+    console.log("query", query);
+
+    fetch(query)
+        .then(response => response.json())
+        .then(json => {
+
+            if (json && json.results && json.results.length > 0) {
+
+                let bag = json.results[0].bag_items;
+                console.log(bag);
+
+                resultField.textContent += '\n' + "Tools in the bag: " + bag.length + '\n';
+
+                for (let i = 0; i < bag.length; i++) {
+                    getToolAndShow(bag[i], i);
+                }
+
+
+            } else {
+                resultField.textContent += "Alien Wolds API is busy (or error happened).\nDouble check your input and try a few seconds later (reload - F5). Api responded: " + json;
+            }
+        }).catch(error => {
+            resultField.textContent += "ERROR: " + error;
+        });
+}
+
+
 function checkMiner() {
+    document.getElementById("btnMinerBag").style.display = "none";
 
     let minedSum = 0;
     let mineCount = 0;
@@ -13,7 +73,7 @@ function checkMiner() {
     var timeAmountArr = [];
 
     let resultField = document.getElementById("resultField");
-    let minerAddress = document.getElementById("minerName").value.trim();
+    minerAddress = document.getElementById("minerName").value.trim();
     // console.log("minerAddress: ", minerAddress);
     let daysLookBack = document.getElementById("daysLookBack").value.trim();
     // console.log("daysLookBack: ", daysLookBack);
@@ -56,7 +116,10 @@ function checkMiner() {
                     var cooldown_s = json.results[i].params.delay;
                     var currMine_ms = new Date(timeRaw).getTime();
 
-                    timeAmountArr.push({ x: currMine_ms, y: mined });
+                    timeAmountArr.push({
+                        x: currMine_ms,
+                        y: mined
+                    });
 
                     if (lastMine_ms != null) {
                         var realDelta_s = (lastMine_ms - currMine_ms) / 1000.0;
@@ -70,13 +133,20 @@ function checkMiner() {
                 }
 
                 // to maximize the timespan of the mine chart
-                timeAmountArr.unshift({ x: currDate, y: 0 }); // stretch data from 'Now'
+                timeAmountArr.unshift({
+                    x: currDate,
+                    y: 0
+                }); // stretch data from 'Now'
                 if (mineCount < 5000) {
-                    timeAmountArr.push({ x: targetDate, y: 0 }); // stretch data to target - only if not limited by API
+                    timeAmountArr.push({
+                        x: targetDate,
+                        y: 0
+                    }); // stretch data to target - only if not limited by API
                 }
 
                 createHistAndPlot(deltas);
                 plotMines(timeAmountArr);
+                document.getElementById("btnMinerBag").style.display = "inline";
 
                 lines += "Total mined: " + minedSum.toFixed(4) + " TLM" + "\n";
                 lines += "Average TLM / mine: " + (minedSum / mineCount).toFixed(4) + " TLM" + "\n";
@@ -87,7 +157,7 @@ function checkMiner() {
 
                 if (mineCount == 5000) {
                     lines += "\n" + "WARNING, data not complete, you hit the api limit of 5000 results" + "\n";
-                    lines += "your real end of data is: " + new Date(lastMine_ms).toUTCString() + " instead of: " + new Date(targetDate).toUTCString()  + "\n";
+                    lines += "your real end of data is: " + new Date(lastMine_ms).toUTCString() + " instead of: " + new Date(targetDate).toUTCString() + "\n";
                 }
 
                 resultField.textContent = lines;
@@ -130,56 +200,56 @@ function plotMines(timeAmountArr) {
 
             splitDate_ms = splitDate_ms + oneDay_ms;
         }
-}
+    }
 
-        const data = {
-            datasets: [{
-                    label: 'Mined TLM by time',
-                    data: timeAmountArr,
-                    //borderColor: 'black',
-                    backgroundColor: 'green',
-                  //  borderWidth: 1,
-                  //  barPercentage: 1,
-                  //  categoryPercentage: 1,
-                    barThickness: 3,
-                },
-                {
-                    label: 'Day splitter',
-                    data: daySplitters,
-                    backgroundColor: 'red',
-                    barThickness: 1,
-                }
-            ],
-        };
+    const data = {
+        datasets: [{
+                label: 'Mined TLM by time',
+                data: timeAmountArr,
+                //borderColor: 'black',
+                backgroundColor: 'green',
+                //  borderWidth: 1,
+                //  barPercentage: 1,
+                //  categoryPercentage: 1,
+                barThickness: 3,
+            },
+            {
+                label: 'Day splitter',
+                data: daySplitters,
+                backgroundColor: 'red',
+                barThickness: 1,
+            }
+        ],
+    };
 
-        const config = {
-            type: 'bar',
-            data: data,
-            options: {
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
             // the below 2 options assures the right max-width behaviour
             responsive: true,
             maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        type: 'linear',
+            scales: {
+                x: {
+                    type: 'linear',
 
-                        min: timeAmountArr[timeAmountArr.length - 1].x,
-                        max: timeAmountArr[0].x,
+                    min: timeAmountArr[timeAmountArr.length - 1].x,
+                    max: timeAmountArr[0].x,
 
-                        ticks: {
-                            minRotation: 20, // angle in degrees
-                            callback: function(value, index, values) {
-                                return moment(value).utc().format("YYYY-MM-DD HH:mm");
-                            }
+                    ticks: {
+                        minRotation: 20, // angle in degrees
+                        callback: function(value, index, values) {
+                            return moment(value).utc().format("YYYY-MM-DD HH:mm");
                         }
                     }
                 }
             }
-        };
+        }
+    };
 
-        // plot to canvas --------------
-        var ctx = document.getElementById('chartMines').getContext('2d');
-        mineChart = new Chart(ctx, config);
+    // plot to canvas --------------
+    var ctx = document.getElementById('chartMines').getContext('2d');
+    mineChart = new Chart(ctx, config);
 
 }
 
@@ -228,9 +298,9 @@ function createHistAndPlot(dataIn) {
             }]
         },
         options: {
-        // the below 2 options assures the right max-width behaviour
-        responsive: true,
-        maintainAspectRatio: false,
+            // the below 2 options assures the right max-width behaviour
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
                     beginAtZero: true
