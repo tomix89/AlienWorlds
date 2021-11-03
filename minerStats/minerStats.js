@@ -2,6 +2,7 @@ const zeroPad = (num, places) => String(num).padStart(places, '0')
 
 var histChart = null;
 var mineChart = null;
+var tlmPowChart = null;
 
 var minerAddress = null;
 
@@ -71,6 +72,7 @@ function checkMiner() {
 
     var deltas = [];
     var timeAmountArr = [];
+    var timeTLMpowtArr = [];
 
     let resultField = document.getElementById("resultField");
     minerAddress = document.getElementById("minerName").value.trim();
@@ -86,6 +88,10 @@ function checkMiner() {
 
     if (histChart != null) {
         histChart.destroy();
+    }
+
+    if (tlmPowChart != null) {
+        tlmPowChart.destroy();
     }
 
     var currDate = new Date().getTime();
@@ -108,6 +114,7 @@ function checkMiner() {
             if (json && json.results && json.results.length > 0) {
                 for (let i = 0; i < json.results.length; i++) {
                     let mined = json.results[i].bounty / 10000;
+                    let TLMpow = json.results[i].params.ease / 10;
                     let timeRaw = json.results[i].block_timestamp;
 
                     minedSum += mined;
@@ -121,6 +128,11 @@ function checkMiner() {
                         y: mined
                     });
 
+                    timeTLMpowtArr.push({
+                        x: currMine_ms,
+                        y: TLMpow
+                    });
+
                     if (lastMine_ms != null) {
                         var realDelta_s = (lastMine_ms - currMine_ms) / 1000.0;
                         //    console.log('realDelta_s', realDelta_s);
@@ -132,20 +144,12 @@ function checkMiner() {
                     lastMine_ms = currMine_ms;
                 }
 
-                // to maximize the timespan of the mine chart
-                timeAmountArr.unshift({
-                    x: currDate,
-                    y: 0
-                }); // stretch data from 'Now'
-                if (mineCount < 5000) {
-                    timeAmountArr.push({
-                        x: targetDate,
-                        y: 0
-                    }); // stretch data to target - only if not limited by API
-                }
+                timeAmountArr = maximizeChart(timeAmountArr, currDate, targetDate, mineCount);
+                timeTLMpowtArr = maximizeChart(timeTLMpowtArr, currDate, targetDate, mineCount, 'expand');
 
                 createHistAndPlot(deltas);
                 plotMines(timeAmountArr);
+                plotTLMpower(timeTLMpowtArr);
                 document.getElementById("btnMinerBag").style.display = "inline";
 
                 lines += "Total mined: " + minedSum.toFixed(4) + " TLM" + "\n";
@@ -168,6 +172,105 @@ function checkMiner() {
         }).catch(error => {
             resultField.textContent = "ERROR: " + error;
         });
+}
+
+function maximizeChart(array, currDate, targetDate, mineCount, fillMode = 'simple') {
+
+    // to maximize the timespan of the mine chart
+    array.unshift({
+        x: currDate,
+        y: (fillMode === 'simple' ? 0 : array[0].y)
+    }); // stretch data from 'Now'
+    if (mineCount < 5000) {
+        array.push({
+            x: targetDate,
+            y: (fillMode === 'simple' ? 0 : array[array.length - 1].y)
+        }); // stretch data to target - only if not limited by API
+    }
+    return array;
+
+}
+
+function plotTLMpower(dataArray) {
+
+    var maxY = 0;
+
+    var i;
+    for (i = 0; i < dataArray.length; i++) {
+
+        if (dataArray[i].y > maxY) {
+            maxY = dataArray[i].y * 1.1;
+        }
+
+        var daySplitters = [];
+
+        const oneDay_ms = 24 * 60 * 60 * 1000;
+        var startDay_ms = dataArray[dataArray.length - 1].x;
+        startDay_ms = Math.floor(startDay_ms / oneDay_ms) * oneDay_ms;
+
+        var splitDate_ms = startDay_ms + oneDay_ms;
+
+
+        while (splitDate_ms < dataArray[0].x) {
+
+            daySplitters.push({
+                x: splitDate_ms,
+                y: maxY
+            });
+
+            splitDate_ms = splitDate_ms + oneDay_ms;
+        }
+    }
+
+    const data = {
+        datasets: [{
+                type: 'line',
+                label: 'TLM power',
+                data: dataArray,
+                //borderColor: 'black',
+                backgroundColor: 'green',
+                borderColor: 'green',
+                borderWidth: 1,
+                //  barPercentage: 1,
+                //  categoryPercentage: 1,
+                // barThickness: 3,
+            },
+            {
+                type: 'bar',
+                label: 'Day splitter',
+                data: daySplitters,
+                backgroundColor: 'red',
+                barThickness: 1,
+            }
+        ],
+    };
+
+    const config = {
+        data: data,
+        options: {
+            // the below 2 options assures the right max-width behaviour
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'linear',
+                    min: dataArray[dataArray.length - 1].x,
+                    max: dataArray[0].x,
+
+                    ticks: {
+                        minRotation: 20, // angle in degrees
+                        callback: function(value, index, values) {
+                            return moment(value).utc().format("YYYY-MM-DD HH:mm");
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    // plot to canvas --------------
+    var ctx = document.getElementById('chartTLMpower').getContext('2d');
+    tlmPowChart = new Chart(ctx, config);
 }
 
 
@@ -204,7 +307,7 @@ function plotMines(timeAmountArr) {
 
     const data = {
         datasets: [{
-                label: 'Mined TLM by time',
+                label: 'Mined TLM',
                 data: timeAmountArr,
                 //borderColor: 'black',
                 backgroundColor: 'green',
