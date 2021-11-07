@@ -1,30 +1,31 @@
 <!DOCTYPE HTML>
-<html>
-<meta charset="UTF-8">
-<body>
-
-  <a href="https://github.com/tomix89/AlienWorlds/blob/main/listMinesOnLand/readme.md">Readme on Github</a>
-  <br>
-  <br>
-  <label>Miner account/name/address</label>
-  <input type="text" id="minerName" value="os2ro.wam" maxlength="25" size="32"> <label for="miner">example: os2ro.wam</label> 
-  <br>
-  <label>Land owner account/name/address</label>
-  <input type="text" id="landOwner" maxlength="25" size="32"> <label for="miner">example: auurg.wam</label> 
-  <br>
-  <label>Land id </label>
-  <input type="text" id="landId" maxlength="25" size="32"> <label for="miner">example: 1099512960377</label> 
-  <br>
-  <br>
-  <script src="getMinesOnLand.js"></script>
-  <input id="clickMe" type="button" value="Go!" onclick="checkMines();" />
-  <br>
-  <br>
-  <label>Total mined with this configuration: </label> <label id="totalMined">0.0000 TLM</label>
-  
-
-  <pre id="resultField"> </pre>
-  
-</body>
-
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>tomix89 AlienWorlds tools</title>
+      <link rel="icon" href="../t89_logo.png">
+      <link href="../styles.css" rel="stylesheet">
+   </head>
+   <body class="subStyle">
+      <a href="https://github.com/tomix89/AlienWorlds/blob/main/listMinesOnLand/readme.md">Click for the Readme (Github)</a>
+      <br>
+      <br>
+      <label>Miner account/name/address</label>
+      <input type="text" id="minerName" value="os2ro.wam" maxlength="25" size="32"> <label for="miner">example: os2ro.wam</label> 
+      <br>
+      <label>Land owner account/name/address</label>
+      <input type="text" id="landOwner" maxlength="25" size="32"> <label for="miner">example: auurg.wam</label> 
+      <br>
+      <label>Land id </label>
+      <input type="text" id="landId" maxlength="25" size="32"> <label for="miner">example: 1099512960377</label> 
+      <br>
+      <br>
+      <script src="getMinesOnLand.js"></script>
+      <button onclick="checkMines()" class="myButton">Go</button>  
+      <br>
+      <br>
+      <label>Total mined with this configuration: </label> <label id="totalMined">0.0000 TLM</label>
+      <pre id="resultField"> </pre>
+   </body>
 </html>

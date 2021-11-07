@@ -265,7 +265,8 @@ function plotTLMpower(dataArray) {
                     }
                 }
             }
-        }
+        },
+		plugins: [plugin],
     };
 
     // plot to canvas --------------
@@ -347,7 +348,8 @@ function plotMines(timeAmountArr) {
                     }
                 }
             }
-        }
+        },
+		plugins: [plugin],
     };
 
     // plot to canvas --------------
@@ -409,7 +411,8 @@ function createHistAndPlot(dataIn) {
                     beginAtZero: true
                 }
             }
-        }
+        },
+		plugins: [plugin],
     });
 }
 
@@ -435,3 +438,15 @@ function formatTime(time_s) {
     return hours.toString() + ':' + zeroPad(minutes, 2) + ':' + zeroPad(time_s.toFixed(0), 2);
 
 }
+
+const plugin = {
+  id: 'canvas_white_background',
+  beforeDraw: (chart) => {
+    const ctx = chart.canvas.getContext('2d');
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, chart.width, chart.height);
+    ctx.restore();
+  }
+};
