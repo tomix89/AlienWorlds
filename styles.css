@@ -12,7 +12,7 @@
 .mainStyle {
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%) fixed;
-    color: white;
+    color: #E0E0E0;
     font-family: Arial;
     text-align: center;
 }
@@ -20,7 +20,7 @@
 .subStyle {
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%) fixed;
-    color: white;
+    color: #E0E0E0;
     font-family: Arial;
 }
 
